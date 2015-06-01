@@ -49,12 +49,12 @@ var Smoothscroll = require('utiljs').es3.Smoothscroll;
 ```
 
 
-## モジュール追加の追加
+## モジュール追加方法
 
 **要編集**
 
-* `./src/` に追加
-* ES3対応の場合は、ファイル名に `es3-` プレフィックスをつける (`es3-name.js`)
+* `./src/` 以下に追加
+* ES3の場合は、ファイル名に `es3-` プレフィックスをつける (`es3-name.js`)
 * `./index.js` に以下の書式で追記する
 
 ```
@@ -68,7 +68,7 @@ module.exports = {
 };
 ```
 
-* なるべくテストも書く `./test/` `npm test`
+* なるべくテストも書く （`./test/` 以下に追加） `npm test`
 * `npm run build` でビルド
 
 ## License
