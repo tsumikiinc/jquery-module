@@ -1,0 +1,50 @@
+{
+  "name": "utiljs",
+  "version": "0.0.1",
+  "description": "TSUMIKI INC. JavaScript utilities",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:tsumikiinc/utiljs.git"
+  },
+  "main": "index.js",
+  "files": [
+    "lib",
+    "index.js",
+    "test",
+    "package.json",
+    "README.md"
+  ],
+  "scripts": {
+    "test": "mocha --compilers js:espower-babel/guess test/**/*.js",
+    "lint:es6": "eslint src/",
+    "lint:coffee": "coffeelint -f coffeelint.json src/",
+    "lint": "npm run lint:es6 && npm run lint:coffee",
+    "compile:es6": "babel -d lib/ src/",
+    "compile:coffee": "coffee -c -o lib/ src/",
+    "compile": "npm run compile:es6 && npm run compile:coffee",
+    "build-standalone": "browserify index.js -t babelify -t coffeeify -s Util | derequire > build/util.js",
+    "build-min": "uglifyjs build/util.js -m -c warnings=false --comments '/\\/*!/' -o build/util.min.js",
+    "build": "npm run lint && npm run compile && npm run build-standalone && npm run build-min"
+  },
+  "engines": {
+    "node": "0.12.x"
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "babel": "^5.4.7",
+    "babel-eslint": "^3.1.9",
+    "babelify": "^6.1.2",
+    "browserify": "^10.2.3",
+    "coffee-script": "^1.9.3",
+    "coffeeify": "^1.1.0",
+    "coffeelint": "^1.10.0",
+    "derequire": "^2.0.0",
+    "eslint": "^0.22.1",
+    "espower-babel": "^3.1.1",
+    "jquery": "^2.1.4",
+    "jsdom": "^3.1.2",
+    "mocha": "^2.2.5",
+    "power-assert": "^0.11.0",
+    "uglify-js": "^2.4.23"
+  }
+}
