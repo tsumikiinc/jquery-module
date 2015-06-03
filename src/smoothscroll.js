@@ -1,4 +1,4 @@
-const $ = global.$;
+import $ from 'jquery';
 
 let _defaults = {
   speed: 700,

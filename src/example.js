@@ -1,6 +1,6 @@
-const $ = global.$;
+import $ from 'jquery';
 
-export default function test(arg) {
+export default function example(arg) {
   console.log($);
   console.log(arg);
 }

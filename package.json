@@ -1,6 +1,6 @@
 {
   "name": "utiljs",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "TSUMIKI INC. JavaScript utilities",
   "repository": {
     "type": "git",
@@ -8,6 +8,7 @@
   },
   "main": "index.js",
   "files": [
+    "build",
     "lib",
     "index.js",
     "test",
@@ -22,9 +23,15 @@
     "compile:es6": "babel -d lib/ src/",
     "compile:coffee": "coffee -c -o lib/ src/",
     "compile": "npm run compile:es6 && npm run compile:coffee",
-    "build-standalone": "browserify index.js -t babelify -t coffeeify -s Util | derequire > build/util.js",
-    "build-min": "uglifyjs build/util.js -m -c warnings=false --comments '/\\/*!/' -o build/util.min.js",
-    "build": "npm run lint && npm run compile && npm run build-standalone && npm run build-min"
+    "replace-b:es6": "replace 'import \\$ from '\\''jquery'\\'';' 'const $ = global.$;' src -r",
+    "replace-b:coffee": "replace '\\$ = require '\\''jquery'\\''' '$ = global.$' src -r",
+    "replace-b": "npm run replace-b:es6 && npm run replace-b:coffee",
+    "replace-n:es6": "replace 'const \\$ = global.\\$;' 'import $ from '\\''jquery'\\'';' src -r",
+    "replace-n:coffee": "replace '\\$ = global.\\$' '$ = require '\\''jquery'\\''' src -r",
+    "replace-n": "npm run replace-n:es6 && npm run replace-n:coffee",
+    "standalone": "browserify index.js -t babelify -t coffeeify -s Util | derequire > build/util.js",
+    "minify": "uglifyjs build/util.js -m -c warnings=false --comments '/\\/*!/' -o build/util.min.js",
+    "build": "npm run lint && npm run compile && npm run replace-b && npm run standalone && npm run minify && npm run replace-n"
   },
   "engines": {
     "node": "0.12.x"
@@ -41,10 +48,13 @@
     "derequire": "^2.0.0",
     "eslint": "^0.22.1",
     "espower-babel": "^3.1.1",
-    "jquery": "^2.1.4",
     "jsdom": "^3.1.2",
     "mocha": "^2.2.5",
     "power-assert": "^0.11.0",
+    "replace": "^0.3.0",
     "uglify-js": "^2.4.23"
+  },
+  "dependencies": {
+    "jquery": "^2.1.4"
   }
 }

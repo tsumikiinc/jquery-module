@@ -1,6 +1,6 @@
 "use strict"
 
-$ = global.$
+$ = require 'jquery'
 
 module.exports =
 class Rollover
