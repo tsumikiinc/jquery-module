@@ -8,7 +8,6 @@
   },
   "main": "index.js",
   "files": [
-    "build",
     "lib",
     "index.js",
     "test",
@@ -31,7 +30,7 @@
     "replace-n": "npm run replace-n:es6 && npm run replace-n:coffee",
     "standalone": "browserify index.js -t babelify -t coffeeify -s Util | derequire > build/util.js",
     "minify": "uglifyjs build/util.js -m -c warnings=false --comments '/\\/*!/' -o build/util.min.js",
-    "build": "npm run lint && npm run compile && npm run replace-b && npm run standalone && npm run minify && npm run replace-n"
+    "build": "npm run lint && npm run replace-b && npm run compile && npm run standalone && npm run minify && npm run replace-n && npm run compile"
   },
   "engines": {
     "node": "0.12.x"

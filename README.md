@@ -22,12 +22,13 @@ npm install tsumikiinc/utiljs -S
 var Smoothscroll = require('utiljs/lib/smoothscroll');
 ```
 
-上記モジュールローダーが利用不可の場合は、 `<script>` で `build/util.js` を読み込み、
+上記モジュールローダーが利用不可の場合は、以下のファイルを `<script>` で読み込み、 `window.Util` 配下から利用します。
 
-`window.Util` 配下から利用します。
+* [util.js](https://raw.githubusercontent.com/tsumikiinc/utiljs/master/build/util.js)
+* [util.min.js](https://raw.githubusercontent.com/tsumikiinc/utiljs/master/build/util.min.js)
 
 ```html
-<script src="build/utiljs.js"></script>
+<script src="util.js"></script>
 <script>
   new window.Util.Smoothscroll(element);
 </script>
@@ -50,7 +51,7 @@ var Smoothscroll = require('utiljs/lib/es3-smoothscroll');
 `build/utiljs.js` の場合は以下のように利用します。
 
 ```html
-<script src="build/utiljs.js"></script>
+<script src="util.js"></script>
 <script>
   new window.Util.es3.Smoothscroll(element);
 </script>
@@ -116,6 +117,23 @@ module.exports = {
 * [power-assert](https://github.com/power-assert-js/power-assert) アサーションライブラリ
 
 できる範囲でテストも書いておくと楽かと思います。
+
+### ビルド時の `$ = require 'jquery'` リプレイスについて
+
+Browserify で `<script>` 用のファイルを生成した場合（standalone）、依存モジュールも全てまとめたものを生成してくれます。（`util.js`）
+
+jQuery などのわりと大きなライブラリに依存したモジュールだと生成されたファイルのサイズが大きくなります。
+
+また、 jQuery に依存したモジュールを利用するプロジェクトは、メインで書くファイルのほうでも jQuery で書く場合が多いかと思います。
+
+以上の理由から、 `util.js` を利用する場合は、大きなサイズのライブラリは別で読み込む前提の仕様にするため、 グローバルに生やしたもの（`$ = global.$`）を利用するようにしてあります。
+
+jQuery の例だと以下です。
+
+```html
+<script src="jquery.js"></script>
+<script src="util.js"></script>
+```
 
 ## License
 
