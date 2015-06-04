@@ -91,6 +91,9 @@
 (function () {
   'use strict';
   var $,
+      $body,
+      DEFAULT_OPTS,
+      LABEL,
       Smoothscroll,
       bind = function bind(fn, me) {
     return function () {
@@ -100,73 +103,86 @@
 
   $ = global.$;
 
+  LABEL = 'smoothscroll';
+
+  DEFAULT_OPTS = {
+    speed: 700,
+    easingName: 'swing',
+    offset: 0,
+    onScrollBefore: function onScrollBefore(smoothscroll) {},
+    onScrollAfter: function onScrollAfter(smoothscroll) {}
+  };
+
+  $body = $('html, body');
+
   module.exports = Smoothscroll = (function () {
-    var _$body, _defaults;
-
     Smoothscroll.addEasing = function (name, func) {
-      return $.easing[name] = func;
+      return $.easing[name + ':' + LABEL] = func;
     };
 
-    Smoothscroll.canselScroll = function () {
-      return _$body.stop();
-    };
-
-    _defaults = {
-      speed: 700,
-      easingName: null,
-      offset: 0,
-      onScrollBefore: function onScrollBefore(el) {},
-      onScrollAfter: function onScrollAfter(el) {}
-    };
-
-    _$body = $('html, body');
-
-    Smoothscroll.prototype._configure = function (el, opts) {
-      this.$el = $(el);
-      this.opts = $.extend({}, _defaults, opts);
-      if (this.$el.attr('href') !== '#') {
-        return this.$target = $(this.$el.attr('href'));
-      }
+    Smoothscroll.cancelScroll = function () {
+      return $body.stop();
     };
 
     function Smoothscroll(el1, opts) {
       this.el = el1;
       this._handleClick = bind(this._handleClick, this);
       this._configure(this.el, opts);
-      this.events();
+      this.bindClick();
     }
 
     Smoothscroll.prototype.scroll = function () {
-      var base, val;
-      if (this.$target == null) {
-        return;
+      var easingName, offset, onScrollAfter, onScrollBefore, ref, speed, val;
+      if (this.$targetEl == null) {
+        return this;
       }
-      if (typeof (base = this.opts).onScrollBefore === 'function') {
-        base.onScrollBefore(this.el);
-      }
-      val = this.$target.offset().top - this.opts.offset;
-      _$body.stop(true, true).animate({
+      ref = this.opts, speed = ref.speed, easingName = ref.easingName, offset = ref.offset, onScrollBefore = ref.onScrollBefore, onScrollAfter = ref.onScrollAfter;
+      onScrollBefore(this);
+      val = this.$targetEl.offset().top - offset;
+      this.onWheelCancel();
+      $body.animate({
         scrollTop: val
       }, {
-        duration: this.opts.speed,
-        easing: this.opts.easingName
-      }).promise().done((function (_this) {
+        duration: speed,
+        easing: easingName === 'swing' ? easingName : easingName + ':' + LABEL
+      }).promise().then((function (_this) {
         return function () {
-          var base1;
-          return typeof (base1 = _this.opts).onScrollAfter === 'function' ? base1.onScrollAfter(_this.el) : void 0;
+          return onScrollAfter(_this);
+        };
+      })(this)).always((function (_this) {
+        return function () {
+          return _this.offWheelCancel();
         };
       })(this));
       return this;
     };
 
-    Smoothscroll.prototype.events = function () {
-      this.$el.on('click.smoothscroll', this._handleClick);
+    Smoothscroll.prototype.bindClick = function () {
+      this.$el.on('click.' + LABEL, this._handleClick);
       return this;
     };
 
-    Smoothscroll.prototype.unbind = function () {
-      this.$el.off('click.smoothScroll');
+    Smoothscroll.prototype.unbindClick = function () {
+      this.$el.off('click.' + LABEL);
       return this;
+    };
+
+    Smoothscroll.prototype.onWheelCancel = function () {
+      return $(window).on('wheel.cancel' + LABEL, Smoothscroll.cancelScroll);
+    };
+
+    Smoothscroll.prototype.offWheelCancel = function () {
+      return $(window).on('wheel.cancel' + LABEL);
+    };
+
+    Smoothscroll.prototype._configure = function (el, opts) {
+      var href;
+      this.$el = $(el);
+      this.opts = $.extend({}, DEFAULT_OPTS, opts);
+      href = this.$el.attr('href');
+      if (href !== '#' && href !== '') {
+        return this.$targetEl = $(href);
+      }
     };
 
     Smoothscroll.prototype._handleClick = function (ev) {
