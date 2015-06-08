@@ -40,7 +40,7 @@ class Smoothscroll
 
     val = @$targetEl.offset().top - offset
 
-    @onWheelCancel()
+    @_onWheelCancel()
 
     $body
     .animate
@@ -51,7 +51,7 @@ class Smoothscroll
     .promise()
     .then => onScrollAfter @
     # .fail => onCancelScroll @
-    .always => @offWheelCancel()
+    .always => @_offWheelCancel()
 
     return this
 
@@ -63,12 +63,6 @@ class Smoothscroll
     @$el.off "click.#{LABEL}"
     return this
 
-  onWheelCancel: ->
-    $(window).on "wheel.cancel#{LABEL}", Smoothscroll.cancelScroll
-
-  offWheelCancel: ->
-    $(window).on "wheel.cancel#{LABEL}"
-
   _configure: (el, opts) ->
     @$el = $(el)
     @opts = $.extend {}, DEFAULT_OPTS, opts
@@ -78,3 +72,9 @@ class Smoothscroll
   _handleClick: (ev) =>
     ev.preventDefault()
     @scroll()
+
+  _onWheelCancel: ->
+    $(window).on "wheel.cancel#{LABEL}", Smoothscroll.cancelScroll
+
+  _offWheelCancel: ->
+    $(window).off "wheel.cancel#{LABEL}"

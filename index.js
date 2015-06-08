@@ -5,6 +5,6 @@ module.exports = {
   example: require('./lib/example'),
   es3: {
     Smoothscroll: require('./lib/es3-smoothscroll'),
-    Rollover: require('./lib/es3-rollover'),
+    Rollover: require('./lib/es3-rollover')
   }
 };

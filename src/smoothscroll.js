@@ -1,71 +1,89 @@
+"use strict";
+
 import $ from 'jquery';
 
-let _defaults = {
+const LABEL = 'smoothscroll';
+
+const DEFAULT_OPTS = {
   speed: 700,
-  easingName: null,
+  easingName: 'swing',
   offset: 0,
-  onScrollBefore: (el) => {},
-  onScrollAfter: (el) => {}
+  onScrollBefore: (smoothscroll) => {},
+  onScrollAfter: (smoothscroll) => {}
 };
 
-let _$body = $('html, body');
+let $body = $('html, body');
 
 export default class Smoothscroll {
 
   static addEasing(name, func) {
-    $.easing[name] = func;
+    $.easing[`${name}:${LABEL}`] = func;
   }
 
-  static canselScroll() {
-    _$body.stop();
+  static cancelScroll() {
+    $body.stop();
   }
 
   constructor(el, opts) {
     this.el = el;
     this._configure(el, opts);
-    this.events();
+    this.bindClick();
   }
 
   scroll() {
-    if (!this.$target) {
+    if (!this.$targetEl) {
       return this;
     }
 
-    this.opts.onScrollBefore(this.el);
+    const {
+      speed,
+      easingName,
+      offset,
+      onScrollBefore,
+      onScrollAfter
+    } = this.opts;
 
-    let val = this.$target.offset().top - this.opts.offset;
+    onScrollBefore(this);
 
-    _$body
-    .stop(true, true)
+    this._onWheelCancel();
+
+    let val = this.$targetEl.offset().top - offset;
+
+    $body
     .animate({
       scrollTop: val
     }, {
-      duration: this.opts.speed,
-      easing: this.opts.easingName
+      duration: speed,
+      easing: (easingName === 'swing') ? easingName : `${easingName}:${LABEL}`
     })
     .promise()
-    .done(() => {
-      this.opts.onScrollAfter(this.el);
+    .then(() => {
+      onScrollAfter(this);
+    })
+    .always(() => {
+      this._offWheelCancel();
     });
 
     return this;
   }
 
-  events() {
-    this.$el.on('click.smoothscroll', this._handleClick.bind(this));
+  bindClick() {
+    this.$el.on(`click.${LABEL}`, this._handleClick.bind(this));
     return this;
   }
 
-  unbind() {
-    this.$el.off('click.smoothScroll');
+  unbindClick() {
+    this.$el.off(`click.${LABEL}`);
     return this;
   }
 
   _configure(el, opts) {
     this.$el = $(el);
-    this.opts = $.extend({}, _defaults, opts);
-    if (this.$el.attr('href') !== '#') {
-      this.$target = $(this.$el.attr('href'));
+    this.opts = $.extend({}, DEFAULT_OPTS, opts);
+
+    let href = this.$el.attr('href');
+    if (href !== '#' && href !== '') {
+      this.$targetEl = $(href);
     }
   }
 
@@ -74,5 +92,12 @@ export default class Smoothscroll {
     this.scroll();
   }
 
-}
+  _onWheelCancel() {
+    $(window).on(`wheel.cancel${LABEL}`, Smoothscroll.cancelScroll);
+  }
 
+  _offWheelCancel() {
+    $(window).off(`wheel.cancel${LABEL}`);
+  }
+
+}

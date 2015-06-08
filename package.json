@@ -18,19 +18,19 @@
     "test": "mocha --compilers js:espower-babel/guess test/**/*.js",
     "lint:es6": "eslint src/",
     "lint:coffee": "coffeelint -f coffeelint.json src/",
-    "lint": "npm run lint:es6 && npm run lint:coffee",
+    "lint": "npm ru lint:es6 && npm ru lint:coffee",
     "compile:es6": "babel -d lib/ src/",
     "compile:coffee": "coffee -c -o lib/ src/",
-    "compile": "npm run compile:es6 && npm run compile:coffee",
+    "compile": "npm ru compile:es6 && npm ru compile:coffee",
     "replace-b:es6": "replace 'import \\$ from '\\''jquery'\\'';' 'const $ = global.$;' src -r",
     "replace-b:coffee": "replace '\\$ = require '\\''jquery'\\''' '$ = global.$' src -r",
-    "replace-b": "npm run replace-b:es6 && npm run replace-b:coffee",
+    "replace-b": "npm ru replace-b:es6 && npm ru replace-b:coffee",
     "replace-n:es6": "replace 'const \\$ = global.\\$;' 'import $ from '\\''jquery'\\'';' src -r",
     "replace-n:coffee": "replace '\\$ = global.\\$' '$ = require '\\''jquery'\\''' src -r",
-    "replace-n": "npm run replace-n:es6 && npm run replace-n:coffee",
+    "replace-n": "npm ru replace-n:es6 && npm ru replace-n:coffee",
     "standalone": "browserify index.js -t babelify -t coffeeify -s Util | derequire > build/util.js",
     "minify": "uglifyjs build/util.js -m -c warnings=false --comments '/\\/*!/' -o build/util.min.js",
-    "build": "npm run lint && npm run replace-b && npm run compile && npm run standalone && npm run minify && npm run replace-n && npm run compile"
+    "build": "npm ru lint && npm ru replace-b && npm ru compile && npm ru standalone && npm ru minify && npm ru replace-n && npm ru compile"
   },
   "engines": {
     "node": "0.12.x"

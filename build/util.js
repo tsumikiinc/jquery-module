@@ -136,7 +136,7 @@
       ref = this.opts, speed = ref.speed, easingName = ref.easingName, offset = ref.offset, onScrollBefore = ref.onScrollBefore, onScrollAfter = ref.onScrollAfter;
       onScrollBefore(this);
       val = this.$targetEl.offset().top - offset;
-      this.onWheelCancel();
+      this._onWheelCancel();
       $body.animate({
         scrollTop: val
       }, {
@@ -148,7 +148,7 @@
         };
       })(this)).always((function (_this) {
         return function () {
-          return _this.offWheelCancel();
+          return _this._offWheelCancel();
         };
       })(this));
       return this;
@@ -164,14 +164,6 @@
       return this;
     };
 
-    Smoothscroll.prototype.onWheelCancel = function () {
-      return $(window).on('wheel.cancel' + LABEL, Smoothscroll.cancelScroll);
-    };
-
-    Smoothscroll.prototype.offWheelCancel = function () {
-      return $(window).on('wheel.cancel' + LABEL);
-    };
-
     Smoothscroll.prototype._configure = function (el, opts) {
       var href;
       this.$el = $(el);
@@ -185,6 +177,14 @@
     Smoothscroll.prototype._handleClick = function (ev) {
       ev.preventDefault();
       return this.scroll();
+    };
+
+    Smoothscroll.prototype._onWheelCancel = function () {
+      return $(window).on('wheel.cancel' + LABEL, Smoothscroll.cancelScroll);
+    };
+
+    Smoothscroll.prototype._offWheelCancel = function () {
+      return $(window).off('wheel.cancel' + LABEL);
     };
 
     return Smoothscroll;
@@ -236,15 +236,17 @@ function _classCallCheck(instance, Constructor) {
 
 var $ = global.$;
 
-var _defaults = {
+var LABEL = 'smoothscroll';
+
+var DEFAULT_OPTS = {
   speed: 700,
-  easingName: null,
+  easingName: 'swing',
   offset: 0,
-  onScrollBefore: function onScrollBefore(el) {},
-  onScrollAfter: function onScrollAfter(el) {}
+  onScrollBefore: function onScrollBefore(smoothscroll) {},
+  onScrollAfter: function onScrollAfter(smoothscroll) {}
 };
 
-var _$body = $('html, body');
+var $body = $('html, body');
 
 var Smoothscroll = (function () {
   function Smoothscroll(el, opts) {
@@ -252,7 +254,7 @@ var Smoothscroll = (function () {
 
     this.el = el;
     this._configure(el, opts);
-    this.events();
+    this.bindClick();
   }
 
   _createClass(Smoothscroll, [{
@@ -260,44 +262,57 @@ var Smoothscroll = (function () {
     value: function scroll() {
       var _this = this;
 
-      if (!this.$target) {
+      if (!this.$targetEl) {
         return this;
       }
 
-      this.opts.onScrollBefore(this.el);
+      var _opts = this.opts;
+      var speed = _opts.speed;
+      var easingName = _opts.easingName;
+      var offset = _opts.offset;
+      var onScrollBefore = _opts.onScrollBefore;
+      var onScrollAfter = _opts.onScrollAfter;
 
-      var val = this.$target.offset().top - this.opts.offset;
+      onScrollBefore(this);
 
-      _$body.stop(true, true).animate({
+      this._onWheelCancel();
+
+      var val = this.$targetEl.offset().top - offset;
+
+      $body.animate({
         scrollTop: val
       }, {
-        duration: this.opts.speed,
-        easing: this.opts.easingName
-      }).promise().done(function () {
-        _this.opts.onScrollAfter(_this.el);
+        duration: speed,
+        easing: easingName === 'swing' ? easingName : '' + easingName + ':' + LABEL
+      }).promise().then(function () {
+        onScrollAfter(_this);
+      }).always(function () {
+        _this._offWheelCancel();
       });
 
       return this;
     }
   }, {
-    key: 'events',
-    value: function events() {
-      this.$el.on('click.smoothscroll', this._handleClick.bind(this));
+    key: 'bindClick',
+    value: function bindClick() {
+      this.$el.on('click.' + LABEL, this._handleClick.bind(this));
       return this;
     }
   }, {
-    key: 'unbind',
-    value: function unbind() {
-      this.$el.off('click.smoothScroll');
+    key: 'unbindClick',
+    value: function unbindClick() {
+      this.$el.off('click.' + LABEL);
       return this;
     }
   }, {
     key: '_configure',
     value: function _configure(el, opts) {
       this.$el = $(el);
-      this.opts = $.extend({}, _defaults, opts);
-      if (this.$el.attr('href') !== '#') {
-        this.$target = $(this.$el.attr('href'));
+      this.opts = $.extend({}, DEFAULT_OPTS, opts);
+
+      var href = this.$el.attr('href');
+      if (href !== '#' && href !== '') {
+        this.$targetEl = $(href);
       }
     }
   }, {
@@ -306,15 +321,25 @@ var Smoothscroll = (function () {
       ev.preventDefault();
       this.scroll();
     }
+  }, {
+    key: '_onWheelCancel',
+    value: function _onWheelCancel() {
+      $(window).on('wheel.cancel' + LABEL, Smoothscroll.cancelScroll);
+    }
+  }, {
+    key: '_offWheelCancel',
+    value: function _offWheelCancel() {
+      $(window).off('wheel.cancel' + LABEL);
+    }
   }], [{
     key: 'addEasing',
     value: function addEasing(name, func) {
-      $.easing[name] = func;
+      $.easing['' + name + ':' + LABEL] = func;
     }
   }, {
-    key: 'canselScroll',
-    value: function canselScroll() {
-      _$body.stop();
+    key: 'cancelScroll',
+    value: function cancelScroll() {
+      $body.stop();
     }
   }]);
 
