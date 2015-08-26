@@ -1,4 +1,4 @@
-"use strict";
+'use strict';
 
 import $ from 'jquery';
 import Popup from './popup';
@@ -11,13 +11,7 @@ const DEFAULT_OPTS = {
   type: ''
 };
 
-let META_TAGS = document.getElementsByTagName('meta');
-
 export default class ShareSNS extends Popup {
-
-  static updateMetaTags() {
-    META_TAGS = document.getElementsByTagName('meta');
-  }
 
   constructor(el, opts) {
     super(el, $.extend({}, DEFAULT_OPTS, opts));

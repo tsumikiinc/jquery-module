@@ -1,4 +1,4 @@
-"use strict";
+'use strict';
 
 import $ from 'jquery';
 
@@ -77,7 +77,8 @@ export default class Popup {
     let x = (window.screen.width - width) / 2;
     let y = (window.screen.height - height) / 2;
 
-    this._param = `screenX=${x},screenY=${y},left=${x},top=${y},width=${width},height=${height},toolbar=0,location=0,directories=0,status=0,menubar=0,scrollbars=yes`;
+    this._param = `screenX=${x},screenY=${y},left=${x},top=${y},width=${width},height=${height},` +
+                  `toolbar=0,location=0,directories=0,status=0,menubar=0,scrollbars=yes`;
   }
 
 }

@@ -60,4 +60,5 @@ class Popup
     x = (window.screen.width - width) / 2
     y = (window.screen.height - height) / 2
 
-    @_param = "screenX=#{x},screenY=#{y},left=#{x},top=#{y},width=#{width},height=#{height},toolbar=0,location=0,directories=0,status=0,menubar=0,scrollbars=yes"
+    @_param = "screenX=#{x},screenY=#{y},left=#{x},top=#{y},width=#{width},height=#{height}," +
+              "toolbar=0,location=0,directories=0,status=0,menubar=0,scrollbars=yes"

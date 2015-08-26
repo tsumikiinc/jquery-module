@@ -1,4 +1,4 @@
-"use strict";
+'use strict';
 
 import $ from 'jquery';
 
@@ -8,8 +8,8 @@ const DEFAULT_OPTS = {
   speed: 700,
   easingName: 'swing',
   offset: 0,
-  onScrollBefore: (smoothscroll) => {},
-  onScrollAfter: (smoothscroll) => {}
+  onScrollBefore: (/* smoothscroll */) => {},
+  onScrollAfter: (/* smoothscroll */) => {}
 };
 
 let $body = $('html, body');

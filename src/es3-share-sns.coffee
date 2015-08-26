@@ -10,13 +10,8 @@ DEFAULT_OPTS =
   nameSuffix: '-popup'
   type: ''
 
-META_TAGS = document.getElementsByTagName 'meta'
-
 module.exports =
 class ShareSNS extends Popup
-
-  @updateMetaTags: ->
-    META_TAGS = document.getElementsByTagName 'meta'
 
   constructor: (@el, opts) ->
     super @el, $.extend {}, DEFAULT_OPTS, opts
