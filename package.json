@@ -37,21 +37,21 @@
   },
   "license": "MIT",
   "devDependencies": {
-    "babel": "^5.4.7",
+    "babel": "^5.8.21",
     "babel-eslint": "^3.1.9",
-    "babelify": "^6.1.2",
+    "babelify": "^6.2.0",
     "browserify": "^10.2.3",
     "coffee-script": "^1.9.3",
     "coffeeify": "^1.1.0",
-    "coffeelint": "^1.10.0",
-    "derequire": "^2.0.0",
+    "coffeelint": "^1.11.1",
+    "derequire": "^2.0.2",
     "eslint": "^0.22.1",
-    "espower-babel": "^3.1.1",
+    "espower-babel": "^3.3.0",
     "jsdom": "^3.1.2",
     "mocha": "^2.2.5",
     "power-assert": "^0.11.0",
     "replace": "^0.3.0",
-    "uglify-js": "^2.4.23"
+    "uglify-js": "^2.4.24"
   },
   "peerDependencies": {
     "jquery": ">=1"
