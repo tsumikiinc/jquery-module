@@ -726,6 +726,7 @@ var ShareSNS = (function (_Popup) {
   }, {
     key: '_setGooglePlusURL',
     value: function _setGooglePlusURL(url) {
+      url = url.replace(/.*?:\/\//g, '');
       this._url = 'https://plus.google.com/share?url=' + url;
     }
   }]);
