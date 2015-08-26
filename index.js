@@ -8,6 +8,7 @@ module.exports = {
   es3: {
     Smoothscroll: require('./lib/es3-smoothscroll'),
     Rollover: require('./lib/es3-rollover'),
-    Popup: require('./lib/es3-popup')
+    Popup: require('./lib/es3-popup'),
+    Modal: require('./lib/es3-modal')
   }
 };
