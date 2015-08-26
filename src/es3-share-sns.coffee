@@ -47,4 +47,5 @@ class ShareSNS extends Popup
     @_url = "https://www.facebook.com/sharer.php?u=#{url}"
 
   _setGooglePlusURL: (url) ->
+    url = url.replace /.*?:\/\//g, ''
     @_url = "https://plus.google.com/share?url=#{url}"
