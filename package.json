@@ -49,7 +49,7 @@
     "espower-babel": "^3.3.0",
     "jsdom": "^3.1.2",
     "mocha": "^2.2.5",
-    "power-assert": "^0.11.0",
+    "power-assert": "^1.0.0",
     "replace": "^0.3.0",
     "uglify-js": "^2.4.24"
   },
