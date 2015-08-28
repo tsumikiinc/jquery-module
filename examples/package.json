@@ -1,0 +1,18 @@
+{
+  "name": "examples",
+  "license": "MIT",
+  "scripts": {
+    "start": "budo index.js --live -v -- -t babelify | opnr | garnish"
+  },
+  "dependencies": {
+    "director": "^1.2.8",
+    "jquery": "^1.11.3",
+    "utiljs": "file:.."
+  },
+  "devDependencies": {
+    "babelify": "^6.2.0",
+    "budo": "^4.2.1",
+    "garnish": "^2.3.0",
+    "opnr": "^1.0.4"
+  }
+}
