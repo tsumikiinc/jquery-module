@@ -1,3 +1,5 @@
 import Smoothscroll from 'utiljs/lib/es3-smoothscroll';
 
-new Smoothscroll(document.querySelector('.anchor'));
+export default function controllers_es3Smoothscroll() {
+  new Smoothscroll(document.querySelector('.anchor'));
+}

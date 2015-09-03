@@ -5,7 +5,7 @@
     "start": "budo index.js --live -v -- -t babelify | opnr | garnish"
   },
   "dependencies": {
-    "director": "^1.2.8",
+    "crossroads": "^0.12.2",
     "jquery": "^1.11.3",
     "utiljs": "file:.."
   },
