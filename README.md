@@ -1,15 +1,15 @@
-# utiljs
+# jquery-module
 
 [![Build Status][travis-image]][travis-url]
 
-TSUMIKI INC. JavaScript utilities.
+TSUMIKI INC. jQuery modules
 
 ## インストール
 
 npm でインストールします。（現状、npmレジストリへは公開していません）
 
 ```
-npm install tsumikiinc/utiljs -S
+npm install tsumikiinc/jquery-module -S
 ```
 
 ## 利用方法
@@ -19,18 +19,19 @@ npm install tsumikiinc/utiljs -S
 利用例：
 
 ```js
-var Smoothscroll = require('utiljs/lib/smoothscroll');
+var Smoothscroll = require('jquery-module/lib/smoothscroll');
 ```
 
-上記モジュールローダーが利用不可の場合は、以下のファイルを `<script>` で読み込み、 `window.Util` 配下から利用します。
+上記モジュールローダーが利用不可の場合は、以下のファイルを `<script>` で読み込み、 `window.$Module` 配下から利用します。
 
-* [util.js](https://raw.githubusercontent.com/tsumikiinc/utiljs/master/build/util.js)
-* [util.min.js](https://raw.githubusercontent.com/tsumikiinc/utiljs/master/build/util.min.js)
+* [jquery-module.js](https://raw.githubusercontent.com/tsumikiinc/jquery-module/master/build/jquery-module.js)
+* [jquery-module.min.js](https://raw.githubusercontent.com/tsumikiinc/jquery-module/master/build/jquery-module.min.js)
 
 ```html
-<script src="util.js"></script>
+<script src="jquery.js"></script>
+<script src="jquery-module.js"></script>
 <script>
-  new window.Util.Smoothscroll(element);
+  new window.$Module.Smoothscroll(element);
 </script>
 ```
 
@@ -39,21 +40,22 @@ var Smoothscroll = require('utiljs/lib/smoothscroll');
 `.es3` 以下の同名モジュールを利用します。
 
 ```js
-var Smoothscroll = require('utiljs').es3.Smoothscroll;
+var Smoothscroll = require('jquery-module/lib/es3-smoothscroll');
 ```
 
-もしくは `es3-` プレフィックスつきを require します。
+もしくは `es3` 配下から利用します。
 
 ```js
-var Smoothscroll = require('utiljs/lib/es3-smoothscroll');
+var Smoothscroll = require('jquery-module').es3.Smoothscroll;
 ```
 
-`build/utiljs.js` の場合は以下のように利用します。
+`build/jquery-module.js` の場合は以下のように利用します。
 
 ```html
-<script src="util.js"></script>
+<script src="jquery.js"></script>
+<script src="jquery-module.js"></script>
 <script>
-  new window.Util.es3.Smoothscroll(element);
+  new window.$Module.es3.Smoothscroll(element);
 </script>
 ```
 
@@ -67,14 +69,14 @@ var Smoothscroll = require('utiljs/lib/es3-smoothscroll');
 
 基本的には、ある程度まとまった機能毎に 1 ファイルにしましょう。
 
-下記を参考に、なるべく ES6(ES2015) で書きましょう。
+下記を参考に、なるべく ES6 (ES2015) で書きましょう。
 
 * http://babeljs.io/docs/learn-es2015/
 * https://github.com/lukehoban/es6features
 
 [Babel](http://babeljs.io/) で ES5 にトランスパイルするので、モダンブラウザと IE9 以上が対象となります。
 
-IE8 以下もサポートの場合は、ファイル名に `es3-` プレフィックスをつけ、 (`es3-my-module.js`) ES3 で普通に書くか、 CoffeeScript などで書きます。
+IE8 以下もサポートするモジュールを作成する場合は、ファイル名に `es3-` プレフィックスをつけ、 (`es3-my-module.js`) ES3 で普通に書くか、 CoffeeScript などで書きます。
 
 ### `./index.js` に追記
 
@@ -86,7 +88,7 @@ module.exports = {
   example: require('./lib/example'),
   es3: {
     Smoothscroll: require('./lib/es3-smoothscroll'),
-    Rollover: require('./lib/es3-rollover'),
+    Rollover: require('./lib/es3-rollover')
   }
 };
 ```
@@ -99,16 +101,16 @@ module.exports = {
 
 * ES6, CoffeeScript の構文チェック
 * ES6, CoffeeScript のコンパイル
-* `$ = require 'jquery'` を `$ = global.$` にリプレイス（理由は後述）
+* `$ = require 'jquery'` を `$ = global.$` に置換（理由は後述）
 * Browserify の standalone オプションで `<script>` 用のファイル生成
-* `<script>` 用のファイルのミニファイ
-* 上記リプレイスを戻す
+* `<script>` 用ファイルのミニファイ
+* 上記置換を戻す
 
 ### なるべくテストも書く
 
 `./test` 以下に、対象のテストファイルを `.spec` サフィックスをつけて追加します。
 
-`npm test` コマンドでテストが走ります。
+`npm test` でテストが走ります。
 
 現状で利用しているテストツールは以下です。
 
@@ -118,21 +120,21 @@ module.exports = {
 
 できる範囲でテストも書いておくと楽かと思います。
 
-### ビルド時の `$ = require 'jquery'` リプレイスについて
+### ビルド時の `$ = require 'jquery'` 置換について
 
-Browserify で `<script>` 用のファイルを生成した場合（standalone）、依存モジュールも全てまとめたものを生成してくれます。（`util.js`）
+Browserify で `<script>` 用のファイルを生成した場合（standalone）、依存モジュールも全てまとめたものを生成してくれます。（`jquery-module.js`）
 
 jQuery などのわりと大きなライブラリに依存したモジュールだと生成されたファイルのサイズが大きくなります。
 
 また、 jQuery に依存したモジュールを利用するプロジェクトは、メインで書くファイルのほうでも jQuery で書く場合が多いかと思います。
 
-以上の理由から、 `util.js` を利用する場合は、大きなサイズのライブラリは別で読み込む前提の仕様にするため、 グローバルに生やしたもの（`$ = global.$`）を利用するようにしてあります。
+以上の理由から、 `jquery-module.js` を利用する場合は、大きなサイズのライブラリは別で読み込む前提の仕様にするため、 グローバルに生やしたもの（`$ = global.$`）を利用するようにしてあります。
 
 jQuery の例だと以下です。
 
 ```html
 <script src="jquery.js"></script>
-<script src="util.js"></script>
+<script src="jquery-module.js"></script>
 ```
 
 ## License
@@ -141,17 +143,17 @@ MIT
 
 © TSUMIKI INC
 
-[npm-image]: http://img.shields.io/npm/v/utiljs.svg
-[npm-url]: https://www.npmjs.org/package/utiljs
-[bower-image]: http://img.shields.io/bower/v/utiljs.svg
-[bower-url]: http://bower.io/search/?q=utiljs
-[travis-image]: http://img.shields.io/travis/tsumikiinc/utiljs/master.svg?branch=master
-[travis-url]: https://travis-ci.org/tsumikiinc/utiljs
+[npm-image]: http://img.shields.io/npm/v/jquery-module.svg
+[npm-url]: https://www.npmjs.org/package/jquery-module
+[bower-image]: http://img.shields.io/bower/v/jquery-module.svg
+[bower-url]: http://bower.io/search/?q=jquery-module
+[travis-image]: http://img.shields.io/travis/tsumikiinc/jquery-module/master.svg?branch=master
+[travis-url]: https://travis-ci.org/tsumikiinc/jquery-module
 [gratipay-image]: http://img.shields.io/gratipay/tsumikiinc.svg
 [gratipay-url]: https://gratipay.com/tsumikiinc/
-[coveralls-image]: https://coveralls.io/repos/tsumikiinc/utiljs/badge.svg
-[coveralls-url]: https://coveralls.io/r/tsumikiinc/utiljs
-[github-ver-image]: https://badge.fury.io/gh/tsumikiinc%2Futiljs.svg
-[github-ver-url]: http://badge.fury.io/gh/tsumikiinc%2Futiljs
-[downloads-image]: http://img.shields.io/npm/dm/utiljs.svg
-[dependencies-image]: http://img.shields.io/david/tsumikiinc/utiljs.svg
+[coveralls-image]: https://coveralls.io/repos/tsumikiinc/jquery-module/badge.svg
+[coveralls-url]: https://coveralls.io/r/tsumikiinc/jquery-module
+[github-ver-image]: https://badge.fury.io/gh/tsumikiinc%2Fjquery-module.svg
+[github-ver-url]: http://badge.fury.io/gh/tsumikiinc%2Fjquery-module
+[downloads-image]: http://img.shields.io/npm/dm/jquery-module.svg
+[dependencies-image]: http://img.shields.io/david/tsumikiinc/jquery-module.svg

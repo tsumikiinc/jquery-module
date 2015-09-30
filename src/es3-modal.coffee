@@ -1,4 +1,4 @@
-"use strict"
+'use strict'
 
 { EventEmitter } = require 'events'
 $ = require 'jquery'
@@ -36,60 +36,48 @@ class Modal extends EventEmitter
   @isAnyOpened: -> anyOpend
 
   constructor: (@el, opts) ->
-    super
+    super()
     @_configure @el, opts
-    @bindClick()
+    @addOpenEvent()
 
   render: (el) ->
     $(@opts.bodySelector).append el
     return this
 
   open: ->
-    if anyOpend then return
+    if anyOpend then return this
     @_opened = anyOpend = true
-    scrollBarWidth = @_getScrollbarWidth()
-    $body
-      .css 'margin-right', scrollBarWidth
-      .append modalHTML
-      .css 'overflow', 'hidden'
 
-    if @opts.isStylingModal
-      $('.js-modal').css
-        width: @opts.width
-        height: @opts.height
-        marginTop: -@opts.height / 2
-        marginLeft: -@opts.width / 2
+    @_stylingBodyAtOpen()
 
-    @bindCloseModal()
+    @_stylingModalAtOpen() if @opts.isStylingModal
+
+    @addCloseEvent()
+
     @emit 'open', @el, this
     return this
 
   close: ->
     @_opened = anyOpend = false
-
     $('.js-modal').hide()
-
-    $('.js-modal-wrapper').fadeOut().promise().done ->
-      $(this).remove()
-      $body.css
-        marginRight: 0
-        overflow: 'visible'
+    $('.js-modal-wrapper').fadeOut().promise().done =>
+      @_removeModalWrapper()
 
     @emit 'close', @el, this
     return this
 
-  bindClick: ->
-    @$el.on "click.#{LABEL}", (ev) =>
+  addOpenEvent: ->
+    @$el.on "click.#{LABEL}:open", (ev) =>
       ev?.preventDefault?()
       @open()
     return this
 
-  unbindClick: ->
-    @$el.off "click.#{LABEL}"
+  removeOpenEvent: ->
+    @$el.off "click.#{LABEL}:open"
     return this
 
-  bindCloseModal: ->
-    $('.js-close-modal, .js-modal-bg').on 'click', (ev) =>
+  addCloseEvent: ->
+    $('.js-close-modal, .js-modal-bg').on "click.#{LABEL}:close", (ev) =>
       ev?.preventDefault?()
       @close()
     return this
@@ -97,6 +85,29 @@ class Modal extends EventEmitter
   _configure: (el, opts) ->
     @$el = $(el)
     @opts = $.extend {}, DEFAULT_OPTS, opts
+
+  _removeModalWrapper: ->
+    $('.js-modal-wrapper').remove()
+    @_stylingBodyDefault()
+
+  _stylingBodyAtOpen: ->
+    scrollBarWidth = @_getScrollbarWidth()
+    $body
+      .css 'margin-right', scrollBarWidth
+      .append modalHTML
+      .css 'overflow', 'hidden'
+
+  _stylingModalAtOpen: ->
+    $('.js-modal').css
+      width: @opts.width
+      height: @opts.height
+      marginTop: -@opts.height / 2
+      marginLeft: -@opts.width / 2
+
+  _stylingBodyDefault: ->
+    $body.css
+      marginRight: 0
+      overflow: 'visible'
 
   _getScrollbarWidth: ->
     div = document.createElement 'div'

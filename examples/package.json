@@ -2,17 +2,16 @@
   "name": "examples",
   "license": "MIT",
   "scripts": {
-    "start": "budo index.js --live -v -- -t babelify | opnr | garnish"
-  },
-  "dependencies": {
-    "crossroads": "^0.12.2",
-    "jquery": "^1.11.3",
-    "utiljs": "file:.."
+    "start": "budo index.js -ol -- -t babelify | garnish"
   },
   "devDependencies": {
-    "babelify": "^6.2.0",
-    "budo": "^4.2.1",
-    "garnish": "^2.3.0",
-    "opnr": "^1.0.4"
+    "babelify": "^6.3.0",
+    "budo": "^5.1.0",
+    "garnish": "^3.2.1"
+  },
+  "dependencies": {
+    "jquery": "^2.1.4",
+    "jquery-module": "file:../",
+    "routeur": "^0.2.2"
   }
 }

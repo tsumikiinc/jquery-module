@@ -1,4 +1,4 @@
-"use strict";
+'use strict';
 
 module.exports = {
   Smoothscroll: require('./lib/smoothscroll'),

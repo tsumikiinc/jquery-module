@@ -1,11 +1,15 @@
-import crossroads from 'crossroads';
+import Router from 'routeur';
 
 import smoothscroll from './controllers/smoothscroll';
 import es3Smoothscroll from './controllers/es3-smoothscroll';
 import shareSNS from './controllers/share-sns';
 
-crossroads.addRoute('/es3-smoothscroll.html', es3Smoothscroll);
-crossroads.addRoute('/smoothscroll.html', smoothscroll);
-crossroads.addRoute('/share-sns.html', shareSNS);
+const routes = {
+  '/es3-smoothscroll.html': es3Smoothscroll,
+  '/smoothscroll.html': smoothscroll,
+  '/share-sns.html': shareSNS
+};
 
-crossroads.parse(location.pathname);
+const router = new Router(routes);
+
+router.run();

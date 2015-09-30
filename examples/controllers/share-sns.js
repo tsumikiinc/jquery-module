@@ -1,4 +1,4 @@
-import ShareSNS from 'utiljs/lib/share-sns';
+import ShareSNS from 'jquery-module/lib/share-sns';
 
 export default function controllers_shareSns() {
   new ShareSNS(document.querySelector('.twitter'), {type: 'twitter'});

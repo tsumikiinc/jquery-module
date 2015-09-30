@@ -1,4 +1,4 @@
-"use strict"
+'use strict'
 
 $ = require 'jquery'
 Popup = require './es3-popup'
