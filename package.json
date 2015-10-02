@@ -48,6 +48,7 @@
     "eslint": "^1.5.1",
     "espower-babel": "^3.3.0",
     "jsdom": "^6.5.1",
+    "licensify": "^2.0.1",
     "mocha": "^2.3.3",
     "power-assert": "^1.0.1",
     "replace": "^0.3.0",
