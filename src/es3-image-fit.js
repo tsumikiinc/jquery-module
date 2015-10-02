@@ -1,6 +1,6 @@
 'use strict';
 
-import $ from 'jquery';
+var $ = require('jquery');
 var $window = $(window);
 
 module.exports = (function() {
@@ -35,7 +35,7 @@ module.exports = (function() {
     this._resizeWindow();
   };
 
-  Imagefit.prototype._fit = function(el) {
+  Imagefit.prototype._fit = function() {
     var containerWidth = $window.width();
     var containerHeight = $window.height();
     var currentAspectRatio = containerHeight / containerWidth;
@@ -54,28 +54,26 @@ module.exports = (function() {
     marginTop = -( height / 2 );
     marginLeft = -( width / 2 );
 
-    el.css({
+    this.$el.css({
       width: width,
       height: height,
       marginTop: marginTop,
       marginLeft: marginLeft
     });
-    return this;
   };
 
   Imagefit.prototype._loadWindow = function() {
     var _this = this;
     $(document).ready(function() {
-      _this._fit(_this.$el);
+      _this._fit();
     });
   };
 
   Imagefit.prototype._resizeWindow = function() {
     var _this = this;
     $window.on('resize.fit', function() {
-      _this._fit(_this.$el);
+      _this._fit();
     });
-    return this;
   };
 
   return Imagefit;
