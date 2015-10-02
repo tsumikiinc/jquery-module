@@ -3,7 +3,7 @@ import Router from 'routeur';
 import smoothscroll from './controllers/smoothscroll';
 import es3Smoothscroll from './controllers/es3-smoothscroll';
 import shareSNS from './controllers/share-sns';
-import es3Imagefit from './controllers/es3-image-fit';
+import es3Imagefit from './controllers/es3-imagefit';
 
 const routes = {
   '/es3-smoothscroll.html': es3Smoothscroll,

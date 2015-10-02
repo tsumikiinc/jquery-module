@@ -10,6 +10,6 @@ module.exports = {
     Rollover: require('./lib/es3-rollover'),
     Popup: require('./lib/es3-popup'),
     Modal: require('./lib/es3-modal'),
-    Imagefit: require('./lib/es3-image-fit')
+    Imagefit: require('./lib/es3-imagefit')
   }
 };

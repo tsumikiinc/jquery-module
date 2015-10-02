@@ -56,5 +56,8 @@
   },
   "peerDependencies": {
     "jquery": ">=1"
+  },
+  "dependencies": {
+    "licensify": "^2.0.1"
   }
 }
