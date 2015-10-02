@@ -14,12 +14,12 @@ npm install tsumikiinc/jquery-module -S
 
 ## 利用方法
 
-基本的には、 Browserify や webpack を利用し、 CommonJS の require スタイルで利用します。
+基本的には、 Browserify や webpack などのモジュールローダーを利用します。
 
 利用例：
 
 ```js
-var Smoothscroll = require('jquery-module/lib/smoothscroll');
+import Smoothscroll from 'jquery-module/lib/smoothscroll';
 ```
 
 上記モジュールローダーが利用不可の場合は、以下のファイルを `<script>` で読み込み、 `window.$Module` 配下から利用します。
@@ -31,13 +31,11 @@ var Smoothscroll = require('jquery-module/lib/smoothscroll');
 <script src="jquery.js"></script>
 <script src="jquery-module.js"></script>
 <script>
-  new window.$Module.Smoothscroll(element);
+  new $Module.Smoothscroll(element);
 </script>
 ```
 
 ### IE8 以下もサポートの場合
-
-`.es3` 以下の同名モジュールを利用します。
 
 ```js
 var Smoothscroll = require('jquery-module/lib/es3-smoothscroll');
@@ -55,7 +53,7 @@ var Smoothscroll = require('jquery-module').es3.Smoothscroll;
 <script src="jquery.js"></script>
 <script src="jquery-module.js"></script>
 <script>
-  new window.$Module.es3.Smoothscroll(element);
+  new $Module.es3.Smoothscroll(element);
 </script>
 ```
 
