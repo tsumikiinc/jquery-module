@@ -9,6 +9,7 @@ module.exports = {
     Smoothscroll: require('./lib/es3-smoothscroll'),
     Rollover: require('./lib/es3-rollover'),
     Popup: require('./lib/es3-popup'),
-    Modal: require('./lib/es3-modal')
+    Modal: require('./lib/es3-modal'),
+    Imagefit: require('./lib/es3-imagefit')
   }
 };
