@@ -1,10 +1,7 @@
-'use strict';
-
 var $ = require('jquery');
 var $window = $(window);
 
 module.exports = (function() {
-
   function Imagefit(el, opts) {
     this._configure(el, opts);
   }
@@ -44,15 +41,15 @@ module.exports = (function() {
     var marginTop;
     var marginLeft;
 
-    if ( this.option.aspectRatio > currentAspectRatio ) {
-        width = containerWidth;
+    if (this.option.aspectRatio > currentAspectRatio) {
+      width = containerWidth;
     } else {
-        width = containerHeight / this.option.aspectRatio;
+      width = containerHeight / this.option.aspectRatio;
     }
     height = width * this.option.aspectRatio;
 
-    marginTop = -( height / 2 );
-    marginLeft = -( width / 2 );
+    marginTop = -(height / 2);
+    marginLeft = -(width / 2);
 
     this.$el.css({
       width: width,

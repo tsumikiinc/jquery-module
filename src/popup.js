@@ -1,5 +1,3 @@
-'use strict';
-
 import $ from 'jquery';
 
 const LABEL = 'popup';
@@ -49,7 +47,7 @@ export default class Popup {
 
     let url;
 
-    if ( (url = this.el.getAttribute('href')) ) {
+    if ((url = this.el.getAttribute('href'))) {
       this._url = url;
     } else {
       this._url = this.opts.url;
@@ -61,21 +59,25 @@ export default class Popup {
   }
 
   _setParam() {
-    let width, height, w, h;
-    if ( (w = this.el.getAttribute('data-popup-width')) ) {
+    let width;
+    let height;
+    let w;
+    let h;
+
+    if ((w = this.el.getAttribute('data-popup-width'))) {
       width = w;
     } else {
       width = this.opts.width;
     }
 
-    if ( (h = this.el.getAttribute('data-popup-heigt')) ) {
+    if ((h = this.el.getAttribute('data-popup-heigt'))) {
       height = h;
     } else {
       height = this.opts.height;
     }
 
-    let x = (window.screen.width - width) / 2;
-    let y = (window.screen.height - height) / 2;
+    const x = (window.screen.width - width) / 2;
+    const y = (window.screen.height - height) / 2;
 
     this._param = `screenX=${x},screenY=${y},left=${x},top=${y},width=${width},height=${height},` +
                   `toolbar=0,location=0,directories=0,status=0,menubar=0,scrollbars=yes`;

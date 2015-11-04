@@ -1,5 +1,3 @@
-'use strict';
-
 import $ from 'jquery';
 import Popup from './popup';
 
@@ -22,7 +20,10 @@ export default class ShareSNS extends Popup {
   _setShareURL() {
     const { type } = this.opts;
 
-    let title, url, ogtitle, ogurl;
+    let title;
+    let url;
+    let ogtitle;
+    let ogurl;
 
     if ((ogtitle = $('meta[property="og:title"]')).length > 0) {
       title = ogtitle.attr('content');
@@ -43,11 +44,10 @@ export default class ShareSNS extends Popup {
     } else if (type === 'google') {
       this._setGooglePlusURL(url);
     }
-
   }
 
   _setTwitterURL(title, url) {
-    let maxLength = 140 - (url.length + 1);
+    const maxLength = 140 - (url.length + 1);
     if (title.length > maxLength) {
       title = `${title.substr(0, (maxLength - 3))}...`;
     }

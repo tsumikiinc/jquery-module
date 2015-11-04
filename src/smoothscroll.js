@@ -1,5 +1,3 @@
-'use strict';
-
 import $ from 'jquery';
 
 const LABEL = 'smoothscroll';
@@ -12,7 +10,7 @@ const DEFAULT_OPTS = {
   onScrollAfter: (/* smoothscroll */) => {}
 };
 
-let $body = $('html, body');
+const $body = $('html, body');
 
 export default class Smoothscroll {
 
@@ -47,7 +45,7 @@ export default class Smoothscroll {
 
     this._onWheelCancel();
 
-    let val = this.$targetEl.offset().top - offset;
+    const val = this.$targetEl.offset().top - offset;
 
     $body
     .animate({
@@ -81,7 +79,7 @@ export default class Smoothscroll {
     this.$el = $(el);
     this.opts = $.extend({}, DEFAULT_OPTS, opts);
 
-    let href = this.$el.attr('href');
+    const href = this.$el.attr('href');
     if (href !== '#' && href !== '') {
       this.$targetEl = $(href);
     }
