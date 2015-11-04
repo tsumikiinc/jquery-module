@@ -22,7 +22,7 @@
     "lint:coffee": "coffeelint -f coffeelint.json src",
     "lint": "npm run lint:es6 && npm run lint:es3 && npm run lint:coffee",
     "compile:es6": "babel --presets es2015 -d lib src",
-    "compile:coffee": "coffee -c -o lib src",
+    "compile:coffee": "coffee --no-header -c -o lib src",
     "compile": "npm run compile:es6 && npm run compile:coffee",
     "replace-b:es6": "replace 'import \\$ from '\\''jquery'\\'';' 'const $ = global.$;' src -r",
     "replace-b:coffee": "replace '\\$ = require '\\''jquery'\\''' '$ = global.$' src -r --include='*.coffee'",
