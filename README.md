@@ -6,10 +6,10 @@ TSUMIKI INC. jQuery modules
 
 ## インストール
 
-npm でインストールします。（現状、npmレジストリへは公開していません）
+npm でインストールします。
 
 ```
-npm install tsumikiinc/jquery-module -S
+npm install jquery-module -S
 ```
 
 ## 利用方法
